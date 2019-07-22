@@ -4,12 +4,13 @@ import org.voltdb.*;
 
 public class ProcedureStored extends VoltProcedure {
 
+	// se crean todas las sentencias sql
 	public final SQLStmt InsertReserva = new SQLStmt("INSERT INTO ls_reserva VALUES(?,?,?);");
-	
+
 	public final SQLStmt DeleteCliente = new SQLStmt(" DELETE FROM ls_cliente " + "WHERE ClienteID=?;");
 
 	public final SQLStmt UpdateReserva = new SQLStmt(" UPDATE ls_reserva SET VueloID=? WHERE ReservaID=?;");
-	
+
 	public final SQLStmt SelectByVueloId = new SQLStmt(
 			"SELECT Origen, Destino FROM ls_vuelo " +
 			"WHERE VueloID=?;");
@@ -19,7 +20,8 @@ public class ProcedureStored extends VoltProcedure {
 	public final SQLStmt SelectByVueloIdDestino = new SQLStmt(
 			"SELECT Origen, Destino FROM ls_vuelo " +
 			"WHERE VueloID=? AND Destino=?;");
-	
+
+	// se la llama a la funcion run con los parametros correspondientes 
 	public VoltTable[] run(String filtro, String ClienteID, String ReservaID, String VueloID, String Origen, String Destino)                               
 			throws VoltAbortException {  
 
@@ -32,7 +34,7 @@ public class ProcedureStored extends VoltProcedure {
 		if(filtro.equals("ureversa")) {
 			voltQueueSQL(UpdateReserva, VueloID, ReservaID);
 		}
-		
+
 		if(filtro.equals("s1vuelo")) {
 			voltQueueSQL(SelectByVueloId, VueloID);
 		}   
@@ -42,7 +44,7 @@ public class ProcedureStored extends VoltProcedure {
 		if(filtro.equals("s3vuelo")) {
 			voltQueueSQL(SelectByVueloIdDestino, VueloID, Destino);
 		} 
-		
+
 		return voltExecuteSQL();     
 	}
 
