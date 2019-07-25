@@ -61,16 +61,6 @@ public class Cliente {
 				for(int k = 0;k < keys.getRowCount(); k++) {
 					long key = keys.fetchRow(k).getLong(1);
 
-					/*		client.callProcedure(new MyCallback(),"ProcedurePartition",              
-						filtro,
-						ClienteID,
-						Nombre,
-						Apellido,
-						ReservaID,
-						VueloID,
-						Origen,
-						Destino);       */
-
 					//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
 					Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino);
 					hilo.start();
