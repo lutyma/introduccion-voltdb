@@ -40,8 +40,8 @@ public class Cliente {
 			String v = "v";
 			int numRandon1 = (int) Math.round(Math.random() * 25 );
 			int numRandon2 = (int) Math.round(Math.random() * 25 );
-			String filtro = "s1client";
-			String ClienteID = id+i;
+			String filtro = "s1cliente";
+			String ClienteID = id+1;
 			String Nombre = abecedario[numRandon1];
 			String Apellido = abecedario[numRandon2];
 			String ReservaID = rs+i;
@@ -54,13 +54,13 @@ public class Cliente {
 
 				// obtenemos todas las particiones con la que cuenta la BD.
 				VoltTable[] results = client.callProcedure("@GetPartitionKeys", 
-						"INTEGER").getResults();
+						"VARCHAR").getResults();
 
 				VoltTable keys = results[0];
 
 				for(int k = 0;k < keys.getRowCount(); k++) {
-					long key = keys.fetchRow(k).getLong(1);
-
+					String key = keys.fetchRow(k).getString(1);
+					
 					//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
 					Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino);
 					hilo.start();

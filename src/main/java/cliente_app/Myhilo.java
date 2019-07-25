@@ -8,7 +8,7 @@ import org.voltdb.client.NoConnectionsException;
 public class Myhilo extends Thread {
 	int idProcedimiento;
 	org.voltdb.client.Client client;
-	long key;
+	String key;
 	String filtro;
 	String ClienteID;
 	String Nombre;
@@ -17,7 +17,7 @@ public class Myhilo extends Thread {
 	String VueloID;
 	String Origen;
 	String Destino;	
-	public Myhilo(int idProcedimiento, Client client, long key, String filtro, String clienteID, String nombre, String apellido,
+	public Myhilo(int idProcedimiento, Client client, String key, String filtro, String clienteID, String nombre, String apellido,
 			String reservaID, String vueloID, String origen, String destino) {
 		super();
 		this.idProcedimiento = idProcedimiento;
@@ -33,7 +33,6 @@ public class Myhilo extends Thread {
 		this.Destino = destino;
 	}
 
-	String clave = String.valueOf(key);
 	public void run()
 	{
 
@@ -41,7 +40,7 @@ public class Myhilo extends Thread {
 
 			// idProcedimiento indica a cual de los procedimientos se le va a invocar.
 			if(idProcedimiento == 1) {
-				client.callProcedure(new MyCallback(),"Threadprocedure",clave);
+				client.callProcedure(new MyCallback(),"Threadprocedure",key);
 			}
 			else if(idProcedimiento == 2){
 				client.callProcedure(new MyCallback(),"ProcedurePartition",              
