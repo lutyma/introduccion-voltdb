@@ -38,7 +38,7 @@ public class Myhilo extends Thread {
 
 		try {
 
-			// idProcedimiento indica a cual de los procedimientos se le va a invocar.
+			// idProcedimiento indica a cual de los procedimientos se le va a invocar..
 			if(idProcedimiento == 1) {
 				client.callProcedure(new MyCallback(),"Threadprocedure",key);
 			}
