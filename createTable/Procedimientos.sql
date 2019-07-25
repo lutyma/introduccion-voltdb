@@ -23,4 +23,9 @@ CREATE PROCEDURE ls_select_reserva AS
 CREATE PROCEDURE FROM CLASS procedure_voltdb.ProcedureStore;      
 
 
----
+--- Particion ejecutadas sobre hilos.
+
+CREATE PROCEDURE
+    PARTITION ON 
+       TABLE ls_cliente COLUMN ClienteID
+    FROM CLASS procedure_voltdb.Threadprocedure;

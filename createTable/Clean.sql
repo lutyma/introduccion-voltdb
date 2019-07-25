@@ -5,5 +5,6 @@ DROP STREAM ls_total_vuelo IF EXISTS;
 DROP VIEW ls_vuelo_vista;
 DROP PROCEDURE ProcedurePartition;
 DROP PROCEDURE ProcedureStored;
+DROP PROCEDURE Threadprocedure;
 DROP PROCEDURE ls_select_cliente;
 DROP PROCEDURE ls_select_reserva;

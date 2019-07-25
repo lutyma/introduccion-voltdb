@@ -20,6 +20,7 @@ CREATE TABLE ls_vuelo (
    Destino VARCHAR(15),
    PRIMARY KEY(VueloID)
 );
+PARTITION TABLE ls_vuelo ON COLUMN VueloID;
 
 CREATE STREAM ls_total_reserva PARTITION ON COLUMN ClienteID(
     ReservaID VARCHAR NOT NULL,
