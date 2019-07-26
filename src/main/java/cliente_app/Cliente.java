@@ -41,7 +41,7 @@ public class Cliente {
 			int numRandon1 = (int) Math.round(Math.random() * 25 );
 			int numRandon2 = (int) Math.round(Math.random() * 25 );
 			String filtro = "s1cliente";
-			String ClienteID = id+1;
+			String ClienteID = id+3000;
 			String Nombre = abecedario[numRandon1];
 			String Apellido = abecedario[numRandon2];
 			String ReservaID = rs+i;
@@ -58,16 +58,33 @@ public class Cliente {
 
 				VoltTable keys = results[0];
 
-				for(int k = 0;k < keys.getRowCount(); k++) {
-					String key = keys.fetchRow(k).getString(1);
-					
+				// idProcedimiento = 1 >> se llama al procedimiento que realiza un select en cada particion.
+				// idPorcedimiento = 2 >> se llama al procedimiento particionado sin uso del key de particion.
+				// idProcedimiento = 3 >> se llama al procedimiento de insertar
+				// si el procedimiento a realizar es un Insert, no se realiza dentro del for, para no insertar en cada particion.
+
+				if(idProcedimiento != 3) {
+
+					for(int k = 0;k < keys.getRowCount(); k++) {
+						String key = keys.fetchRow(k).getString(1);
+
+						//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
+						Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino);
+						hilo.start();
+						Thread.sleep(5000l);
+						client.drain();
+					}	
+				}
+				else if(idProcedimiento == 3) {
+					String key = keys.fetchRow(0).getString(1);
+
 					//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
 					Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino);
 					hilo.start();
 					Thread.sleep(5000l);
 					client.drain();
-				}	
 
+				}
 			} catch (Exception e) {
 
 				System.out.println(e.getMessage());

@@ -53,6 +53,12 @@ public class Myhilo extends Thread {
 						Origen,
 						Destino);	
 			}
+			else if(idProcedimiento == 3){
+				client.callProcedure(new MyCallback(),"ThreadProcedureInsert", key,             
+						ClienteID,
+						Nombre,
+						Apellido);	
+			}
 
 		} catch (NoConnectionsException e) {
 			e.printStackTrace();
