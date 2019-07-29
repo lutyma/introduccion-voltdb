@@ -29,3 +29,10 @@ CREATE PROCEDURE
     PARTITION ON 
        TABLE ls_cliente COLUMN ClienteID
     FROM CLASS procedure_voltdb.Threadprocedure;
+    
+---- Partition para Update un cliente sobre un hilo
+
+CREATE PROCEDURE
+    PARTITION ON 
+       TABLE ls_cliente COLUMN ClienteID
+    FROM CLASS procedure_voltdb.ThreadProcedureUpdate;

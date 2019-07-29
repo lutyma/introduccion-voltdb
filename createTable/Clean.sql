@@ -8,3 +8,4 @@ DROP PROCEDURE ProcedureStored;
 DROP PROCEDURE Threadprocedure;
 DROP PROCEDURE ls_select_cliente;
 DROP PROCEDURE ls_select_reserva;
+DROP PROCEDURE ThreadProcedureUpdate;
