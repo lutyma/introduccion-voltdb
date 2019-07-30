@@ -57,7 +57,7 @@ public class Myhilo extends Thread {
 						if(res.getString(0).equals(modificarId)) {
 
 							try {
-								client.callProcedure(new MyCallback(),"ThreadProcedureUpdate", key, modificarId, "Joel");
+								client.callProcedure(new MyCallback(),"ThreadProcedureUpdate", key, modificarId, "NuevoNombre");
 							} catch (NoConnectionsException e) {
 
 								e.printStackTrace();
