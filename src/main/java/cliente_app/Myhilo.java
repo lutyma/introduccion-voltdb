@@ -2,8 +2,11 @@ package cliente_app;
 
 import java.io.IOException;
 
+import org.voltdb.VoltTable;
 import org.voltdb.client.Client;
+import org.voltdb.client.ClientResponse;
 import org.voltdb.client.NoConnectionsException;
+import org.voltdb.client.ProcCallException;
 
 public class Myhilo extends Thread {
 	int idProcedimiento;
@@ -34,7 +37,8 @@ public class Myhilo extends Thread {
 		this.Destino = destino;
 		this.modificarId = modificarId;
 	}
-
+	VoltTable[] results = null;
+	ClientResponse clientResponse = null;
 	public void run()
 	{
 
@@ -42,7 +46,32 @@ public class Myhilo extends Thread {
 
 			// idProcedimiento indica a cual de los procedimientos se le va a invocar..
 			if(idProcedimiento == 1) {
-				client.callProcedure(new MyCallback(client, modificarId, key),"Threadprocedure",key);
+				try {
+					clientResponse =client.callProcedure("Threadprocedure", key);
+					results = clientResponse.getResults();
+					VoltTable res = results[0];
+					System.out.println("resultado: " + res);
+					System.out.println("###########");	
+
+					while(res.advanceRow()) {
+						if(res.getString(0).equals(modificarId)) {
+
+							try {
+								client.callProcedure(new MyCallback(),"ThreadProcedureUpdate", key, modificarId, "Joel");
+							} catch (NoConnectionsException e) {
+
+								e.printStackTrace();
+							} catch (IOException e) {
+
+								e.printStackTrace();
+							}
+						}	
+
+					}
+
+				} catch (ProcCallException e) {
+					e.printStackTrace();
+				}
 			}
 			else if(idProcedimiento == 2){
 

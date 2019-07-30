@@ -49,7 +49,7 @@ public class Cliente {
 			String Origen = "";
 			String Destino =  "";
 			int idProcedimiento = 1;
-			String modificarId = "id3001";
+			String modificarId = "";
 
 			try {
 
@@ -67,25 +67,24 @@ public class Cliente {
 
 					for(int k = 0;k < keys.getRowCount(); k++) {
 						String key = keys.fetchRow(k).getString(1);
-						System.out.println("key: " + key);
 
-						//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
+						//se crea una instancia de la clase hilo para cada partición y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
 						Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino, modificarId);
 						hilo.start();
-						Thread.sleep(5000l);
-						client.drain();
-					}	
+					}
+					client.drain();
 				}
+
 				else if(idProcedimiento == 2) {
 					String key = keys.fetchRow(0).getString(1);
 
 					//se crea una instancia de la clase hilo y se le pasa los parámetros para llamar al storeprocedure identificado por el primer parametro.
 					Myhilo hilo = new Myhilo(idProcedimiento, client, key, filtro, ClienteID, Nombre, Apellido, ReservaID, VueloID, Origen, Destino, modificarId);
 					hilo.start();
-					Thread.sleep(5000l);
 					client.drain();
-
 				}
+
+
 			} catch (Exception e) {
 
 				System.out.println(e.getMessage());
